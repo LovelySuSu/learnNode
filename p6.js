@@ -3,8 +3,10 @@
  */
 var Read = require('./pmodule');
 var process = require('process');
-var path = process.argv.slice(2);
-var reader = new Read();
-reader.setPath(path[0]);
-reader.setEnd(path[1]);
-reader.read();
+var read = new Read(process.argv[2],process.argv[3],function callback(err,data){
+    if(err) return console.error('There was an error:', err)
+    else data.forEach(function (val) {
+        console.log(val);
+    });
+});
+read.readFile();

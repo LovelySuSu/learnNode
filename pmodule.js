@@ -1,23 +1,14 @@
 /**
  * Created by dingding on 2018/2/9.
  */
-var fs = require('fs');
-var Read = function () {
-    this.setPath = function(path) {
-        this.path = path;
-    };
-    this.setEnd = function (end) {
-        this.end = end;
-    };
-    this.read= function(){
-        let self = this;
-        fs.readdir(self.path,function callback(err,data){
-            if(err) throw Error();
+function Read(dir,tail,fn){
+    var fs = require('fs');
+    this.readFile = function () {
+        fs.readdir(dir,function callback(err,data){
+            if(err) return fn(err);
             else {
-                let reg = new RegExp('^.*.'+self.end+'$','i');
-                data.forEach(function(val){
-                    if(reg.test(val)) console.log(val);
-                })
+                let reg = new RegExp('^.*.'+tail+'$','i');
+                return fn(null,data.filter(val=>reg.test(val)))
             }
         })
     }
